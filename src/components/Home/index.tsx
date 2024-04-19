@@ -25,9 +25,7 @@ export default function Home({ categories }: HomeComponentProps) {
   });
 
   useEffect(() => {
-    if (category) {
-      refetch();
-    }
+    refetch();
   }, [category]);
 
   return (

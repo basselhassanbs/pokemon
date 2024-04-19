@@ -3,7 +3,7 @@ import { getPokemonData } from '@/services/api';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Barchart from '../Barchart';
-import { Category, Container, Title } from './style';
+import { Category, ChartContainer, Container, Title } from './style';
 
 interface PokemonDetailsProps {
   pokemonName: string;
@@ -11,7 +11,7 @@ interface PokemonDetailsProps {
 
 export default function PokemonDetails({ pokemonName }: PokemonDetailsProps) {
   const { data, isLoading } = useQuery({
-    queryKey: ['pokemon'],
+    queryKey: ['pokemonDetails'],
     queryFn: () => getPokemonData(pokemonName),
   });
 
@@ -30,10 +30,6 @@ export default function PokemonDetails({ pokemonName }: PokemonDetailsProps) {
 
   const chartCategories = stats && stats.map((stat: any) => stat.stat.name);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
       <Title data-testid='pokemon-title'>{name}</Title>
@@ -46,7 +42,9 @@ export default function PokemonDetails({ pokemonName }: PokemonDetailsProps) {
         />
       ) : null}
       {stats && (
-        <Barchart chartSeries={chartSeries} categories={chartCategories} />
+        <ChartContainer>
+          <Barchart chartSeries={chartSeries} categories={chartCategories} />
+        </ChartContainer>
       )}
       <Container>
         {types &&
